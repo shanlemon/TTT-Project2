@@ -12,10 +12,16 @@ public class Assets {
 	
 	public static BufferedImage[] player_down, player_up, player_left, player_right;
 	
+	public static BufferedImage[] btn_start;
+	
 	
 	public static void init(){
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/SpriteSheet.png"));
 		SpriteSheet charSheet = new SpriteSheet(ImageLoader.loadImage("/textures/CharacterSpriteSheet.png"));
+		
+		btn_start = new BufferedImage[2];
+		btn_start[0] = charSheet.crop(0, playerHeight*4, 64, 28);
+		btn_start[1] = charSheet.crop(0, playerHeight*4 + 26, 64, 28);
 
 		player_down = new BufferedImage[4];
 		player_up = new BufferedImage[4];

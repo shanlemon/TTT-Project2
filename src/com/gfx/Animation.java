@@ -23,9 +23,7 @@ public class Animation {
 		if (timer > speed) {
 			index++;
 			timer = 0;
-			if (index >= frames.length) {
-				index = 0;
-			}
+			index %= frames.length;
 		}
 	}
 
@@ -40,4 +38,9 @@ public class Animation {
 			return frames[0];
 		}
 	}
+	
+	public int getCurrentIndex(){
+		return index;
+	}
+
 }

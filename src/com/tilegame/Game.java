@@ -105,12 +105,7 @@ public class Game implements Runnable {
 	public void run() {
 		init();
 		
-	//	int frames = 0, ticks = 0;
-		
-		
-		
-//		init();
-//		
+	//	int frames = 0, ticks = 0;		
 		
 		int fps = 60;
 		double timePerTick = 1000000000 / fps;
@@ -128,10 +123,11 @@ public class Game implements Runnable {
 			
 			if(delta >= 1){
 				tick();
-				render();
 				ticks++;
 				delta--;
 			}
+			render();
+
 			if(timer >= 1000000000){
 				System.out.println(ticks);
 				ticks = 0;
