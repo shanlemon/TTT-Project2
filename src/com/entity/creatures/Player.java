@@ -3,11 +3,14 @@ package com.entity.creatures;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import com.entity.Entity;
 import com.gfx.Animation;
 import com.gfx.Assets;
 import com.tilegame.Handler;
+import com.tilegame.inventory.Inventory;
 
 public class Player extends Creature {
 
@@ -15,6 +18,11 @@ public class Player extends Creature {
 	private Animation animDown, animUp, animLeft, animRight;
 	int animationSpeed;
 	private Animation currentAnimation;
+	
+	private long lastAttackTimer, attackCoolDown = 80, attackTimer = attackCoolDown;
+	
+	// Inventory
+	private Inventory inventory;
 
 	public Player(Handler handler, float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -35,6 +43,8 @@ public class Player extends Creature {
 		animLeft = new Animation(animationSpeed, Assets.player_left);
 		animRight = new Animation(animationSpeed, Assets.player_right);
 		currentAnimation = new Animation(animationSpeed, Assets.player_down);
+		
+		inventory = new Inventory(handler);
 	}
 
 	@Override
@@ -48,6 +58,57 @@ public class Player extends Creature {
 		getInput();
 		move();
 		handler.getGameCamera().centerOnEntity(this);
+		
+		//ATTACK
+		checkAttacks();
+		
+		//Inventory
+		inventory.tick();
+	}
+	
+	private void checkAttacks(){
+		attackTimer += System.currentTimeMillis() - lastAttackTimer;
+		lastAttackTimer = System.currentTimeMillis();
+		
+		if(attackTimer < attackCoolDown){
+			return;
+		}
+		
+		Rectangle cb = getCollisionBounds(0,0);
+		Rectangle ar = new Rectangle();
+		int arSize = 20;
+		ar.width = arSize;
+		ar.height = arSize;
+		
+		if(handler.getKeyManager().aUp){
+			ar.x = cb.x + cb.width/2  -arSize/2;
+			ar.y = cb.y - arSize;
+		}else if(handler.getKeyManager().aDown){
+			ar.x = cb.x + cb.width/2  -arSize/2;
+			ar.y = cb.y + cb.height;
+		}else if(handler.getKeyManager().aLeft){
+			ar.x = cb.x - arSize;
+			ar.y = cb.y + cb.height / 2 - arSize /2;
+		}else if(handler.getKeyManager().aRight){
+			ar.x = cb.x + cb.width;
+			ar.y = cb.y + cb.height / 2 - arSize /2;
+		}else{
+			return;
+		}
+		
+		attackTimer = 0;
+
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()){
+			if(e.equals(this)){
+				continue;
+			}
+			
+			if(e.getCollisionBounds(0, 0).intersects(ar)){
+				e.hurt(1);
+				return;
+			}
+		}
+		
 	}
 
 	private void getInput() {
@@ -74,12 +135,26 @@ public class Player extends Creature {
 		g.setColor(Color.red);
 		g.drawString("Margaret Lea", (int) (x - handler.getGameCamera().getxOffset()) - 25,
 				(int) (y - handler.getGameCamera().getyOffset()));
+		
+		//inventory.render(g);
 
 		// g.setColor(Color.red);
 		// g.fillRect((int)(x + bounds.x -
 		// handler.getGameCamera().getxOffset()),
 		// (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
 		// bounds.width, bounds.height);
+	}
+	
+	public void postRender(Graphics g){
+		inventory.render(g);
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
 
 	private BufferedImage getCurrentAnimationFrame() {
@@ -103,6 +178,12 @@ public class Player extends Creature {
 			
 		}
 
+	}
+
+	@Override
+	public void die() {
+		System.out.println("you lose");
+		
 	}
 
 }

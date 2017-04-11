@@ -8,7 +8,9 @@ public class Assets {
 	private static final int playerWidth = 32, playerHeight = 48;
 
 	
-	public static BufferedImage grass, dirt, tree, chest, stone;
+	public static BufferedImage grass, dirt, tree, rock, wood, chest, stone, inventoryScreen;
+	
+	
 	
 	public static BufferedImage[] player_down, player_up, player_left, player_right;
 	
@@ -18,6 +20,8 @@ public class Assets {
 	public static void init(){
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/SpriteSheet.png"));
 		SpriteSheet charSheet = new SpriteSheet(ImageLoader.loadImage("/textures/CharacterSpriteSheet.png"));
+		
+		
 		
 		btn_start = new BufferedImage[2];
 		btn_start[0] = charSheet.crop(0, playerHeight*4, 64, 28);
@@ -54,6 +58,12 @@ public class Assets {
 		chest = sheet.crop(width*3, 0, width, height);
 		stone = sheet.crop(0, height, width, height);
 		tree = sheet.crop(0, height * 2, width * 2, height * 2);
+		
+		
+		rock = sheet.crop(width * 2, height * 2, width * 2, height * 2);
+		wood = sheet.crop(width, 0, width, height);
+		
+		inventoryScreen = ImageLoader.loadImage("/textures/Inventory.png");
 		
 //		p = playerSheet.crop(0, 0, width, height);
 //		pN = playerSheet.crop(width, 0, width, height);

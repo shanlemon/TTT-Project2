@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import com.gfx.Assets;
 import com.tilegame.Handler;
+import com.tilegame.items.Item;
 import com.tilegame.tiles.Tile;
 
 public class Tree extends StaticEntity {
@@ -30,6 +31,12 @@ public class Tree extends StaticEntity {
 		//g.setColor(Color.red);
 		//g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
 		//		(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
+	}
+
+	@Override
+	public void die() {
+		handler.getWorld().getItemManager().addItem(Item.woodItem.createNew((int)x, (int)y));
+		
 	}
 
 }
