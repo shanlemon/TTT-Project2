@@ -28,7 +28,7 @@ public class MenuState extends State{
 	@Override
 	public void tick() {
 		uiManager.tick();
-		State.setState(handler.getGame().gameState);
+		//State.setState(handler.getGame().gameState);
 	}
 
 	

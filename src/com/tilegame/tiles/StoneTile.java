@@ -3,9 +3,9 @@ package com.tilegame.tiles;
 
 import com.gfx.Assets;
 
-public class RockTile extends Tile{
+public class StoneTile extends Tile{
 
-	public RockTile(int id) {
+	public StoneTile(int id) {
 		super(Assets.stone, id);
 		
 	}

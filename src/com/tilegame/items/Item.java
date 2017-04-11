@@ -10,8 +10,8 @@ import com.tilegame.Handler;
 public class Item {
 	//handler
 	public static Item[] items = new Item[256];
-	public static Item woodItem = new Item(Assets.wood, "Wood", 0);
-	public static Item stoneItem = new Item(Assets.stone, "Stone", 1);
+	public static Item woodItem = new Item(Assets.woodDrop, "Wood", 0);
+	public static Item stoneItem = new Item(Assets.stoneDrop, "Stone", 1);
 
 	//class
 	public static final int ITEMWIDTH = 32, ITEMHEIGHT = 32;
@@ -52,6 +52,13 @@ public class Item {
 		if(handler == null)
 			return;
 		render(g, (int)(x - handler.getGameCamera().getxOffset()),(int)(y - handler.getGameCamera().getyOffset()));
+	}
+	
+	public Item createNew(int count){
+		Item i = new Item(texture, name, id);
+		i.setPickedUp(true);
+		i.setCount(count);
+		return i;
 	}
 	
 	public Item createNew(int x, int y){

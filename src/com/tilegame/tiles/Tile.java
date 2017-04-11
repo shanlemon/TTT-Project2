@@ -9,9 +9,11 @@ public class Tile {
 	
 	public static Tile[] tiles = new Tile[256];
 	public static Tile grassTile = new GrassTile(0);
-	public static Tile rockTile = new RockTile(1);
-	public static Tile chestTile = new ChestTile(2);
-	public static Tile dirtTile = new DirtTile(3);
+	public static Tile rockTile = new StoneTile(4);
+	public static Tile dirtTile = new DirtTile(1);
+	public static Tile SandTile = new SandTile(3);
+	public static Tile RoadTile = new RoadTile(2);
+
 
 	
 	public static final int TILEWIDTH = 64, TILEHEIGHT = 64;

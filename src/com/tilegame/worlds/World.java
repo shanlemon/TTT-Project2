@@ -6,6 +6,7 @@ import com.entity.EntityManager;
 import com.entity.creatures.Player;
 import com.entity.statics.Rock;
 import com.entity.statics.Tree;
+import com.sun.glass.events.KeyEvent;
 import com.tilegame.Handler;
 import com.tilegame.items.ItemManager;
 import com.tilegame.tiles.Tile;
@@ -28,14 +29,14 @@ public class World {
 		itemManager = new ItemManager(handler);
 
 		loadWorld(path);
-		spawnX = handler.getWidth()/2;
-		spawnY = handler.getHeight()/2;
+		spawnX = 75;
+		spawnY = 75;
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
 		
 		generateTrees(100);
 		
-		entityManager.addEntity(new Rock(handler, (1 * Tile.TILEWIDTH) - (Tile.TILEWIDTH/2), (1 * Tile.TILEHEIGHT) - (Tile.TILEHEIGHT + 15)));
+		entityManager.addEntity(new Rock(handler,500,200));
 
 
 	}
@@ -47,6 +48,11 @@ public class World {
 	public void tick() {
 		itemManager.tick();
 		entityManager.tick();
+		
+		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_M)){
+			System.out.println("X: " + handler.getMouseManager().getMouseX() + " Y: " + handler.getMouseManager().getMouseY());
+		}
+			
 	}
 
 	public void render(Graphics g) {
